@@ -21,7 +21,7 @@ export const menuItems = [
         id: 3,
         name: "Iced Americano",
         price: 150,
-        description: "Bold expresso over ice with a refershing finsh",
+        description: "Bold expresso over ice with a chill vibe",
         image: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Caff%C3%A8_americano_in_the_Philippines.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
         popular: true,
         category: "coffee"
