@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BunkCafe | Coffee • Food • Good Vibes</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            50: "#faf6ef",
+                            100: "#f2e8d8",
+                            200: "#e5d2b8",
+                            300: "#d4b995",
+                            400: "#b98e65",
+                            500: "#95663f",
+                            600: "#70472d",
+                            700: "#533222",
+                            800: "#3b2419",
+                            900: "#24140e"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+                        display: ["Georgia", "serif"]
+                    },
+                    keyframes: {
+                        float: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-12px)"
+                            }
+                        },
+                        steam: {
+                            "0%": {
+                                opacity: "0",
+                                transform: "translateY(10px) scale(0.9)"
+                            },
+                            "50%": {
+                                opacity: "0.5"
+                            },
+                            "100%": {
+                                opacity: "0",
+                                transform: "translateY(-35px) scale(1.2)"
+                            }
+                        },
+                        rotateSlow: {
+                            "0%": {
+                                transform: "rotate(0deg)"
+                            },
+                            "100%": {
+                                transform: "rotate(360deg)"
+                            }
+                        },
+                        fadeUp: {
+                            "0%": {
+                                opacity: "0",
+                                transform: "translateY(25px)"
+                            },
+                            "100%": {
+                                opacity: "1",
+                                transform: "translateY(0)"
+                            }
+                        },
+                        pulseSoft: {
+                            "0%, 100%": {
+                                transform: "scale(1)"
+                            },
+                            "50%": {
+                                transform: "scale(1.04)"
+                            }
+                        }
+                    },
+                    animation: {
+                        float: "float 4s ease-in-out infinite",
+                        steam: "steam 3s ease-in-out infinite",
+                        rotateSlow: "rotateSlow 18s linear infinite",
+                        fadeUp: "fadeUp 0.8s ease-out forwards",
+                        pulseSoft: "pulseSoft 3s ease-in-out infinite"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-coffee-50 font-sans text-coffee-900">
+
+    <header class="sticky top-0 z-50 border-b border-coffee-200/70 bg-coffee-50/90 backdrop-blur-md">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+
+            <a href="#" class="group flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-full bg-coffee-800 text-coffee-100 transition duration-300 group-hover:rotate-12">
+                    <i class="fa-solid fa-mug-hot text-lg"></i>
+                </div>
+
+                <div>
+                    <h1 class="font-display text-2xl font-bold tracking-tight">
+                        BunkCafe
+                    </h1>
+
+                    <p class="hidden text-xs tracking-[0.2em] text-coffee-500 sm:block">
+                        COFFEE • FOOD • GOOD VIBES
+                    </p>
+                </div>
+            </a>
+
+            <div class="hidden items-center gap-8 md:flex">
+                <a href="#home" class="text-sm font-medium text-coffee-800 transition hover:text-coffee-500">
+                    Home
+                </a>
+
+                <a href="#menu" class="text-sm font-medium text-coffee-600 transition hover:text-coffee-500">
+                    Menu
+                </a>
+
+                <a href="#about" class="text-sm font-medium text-coffee-600 transition hover:text-coffee-500">
+                    About
+                </a>
+
+                <a href="#contact" class="text-sm font-medium text-coffee-600 transition hover:text-coffee-500">
+                    Contact
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3">
+               <input
+    id="searchInput"
+    type="text"
+    placeholder="Search menu..."
+    class="hidden w-48 rounded-full border border-coffee-200 px-4 py-2 text-sm text-coffee-900 outline-none transition-all duration-300 focus:border-coffee-500 focus:ring-2 focus:ring-coffee-200"
+    />
+                <button
+                    id="searchBtn"
+                    class="flex h-10 w-10 items-center justify-center rounded-full border border-coffee-200 text-coffee-700 transition duration-300 hover:border-coffee-500 hover:bg-coffee-100 hover:scale-105"
+                >
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <button
+                    id="cartBtn"
+                    class="relative flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-coffee-100 transition duration-300 hover:bg-coffee-700 hover:scale-105"
+                >
+                    <i class="fa-solid fa-bag-shopping"></i>
+
+                    <span
+                        id="cartCount"
+                        class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-coffee-400 text-[10px] font-bold text-white"
+                    >
+                        0
+                    </span>
+                </button>
+
+                <button
+                    id="mobileMenuBtn"
+                    class="flex h-10 w-10 items-center justify-center rounded-full border border-coffee-200 text-coffee-700 md:hidden"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobileMenu" class="hidden border-t border-coffee-200 bg-coffee-50 px-5 py-4 md:hidden">
+            <div class="flex flex-col gap-4">
+                <a href="#home" class="text-sm font-medium">Home</a>
+                <a href="#menu" class="text-sm font-medium">Menu</a>
+                <a href="#about" class="text-sm font-medium">About</a>
+                <a href="#contact" class="text-sm font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <section id="home" class="relative overflow-hidden">
+
+            <div class="absolute -left-24 top-20 h-56 w-56 rounded-full border border-coffee-200/60 animate-rotateSlow"></div>
+
+            <div class="absolute right-10 top-16 hidden text-coffee-300 lg:block animate-float">
+                <i class="fa-solid fa-seedling text-5xl"></i>
+            </div>
+
+            <div class="mx-auto grid min-h-[680px] max-w-7xl items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:px-8 lg:py-20">
+
+                <div class="animate-fadeUp">
+
+                    <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-coffee-200 bg-coffee-100 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-coffee-600">
+                        <span class="h-2 w-2 rounded-full bg-coffee-500"></span>
+                        GOOD COFFEE • BETTER DAYS
+                    </div>
+
+                    <h2 class="max-w-xl font-display text-5xl font-bold leading-[1.05] text-coffee-900 sm:text-6xl lg:text-7xl">
+                        Your daily
+                        <span class="text-coffee-500">coffee</span>
+                        escape.
+                    </h2>
+
+                    <p class="mt-6 max-w-lg text-base leading-7 text-coffee-600 sm:text-lg">
+                        Freshly brewed coffee, delicious bites and a cozy corner
+                        to pause, connect and enjoy your day.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a
+                            href="#menu"
+                            class="group inline-flex items-center gap-3 rounded-full bg-coffee-800 px-6 py-3.5 font-semibold text-coffee-50 shadow-lg shadow-coffee-900/10 transition duration-300 hover:-translate-y-1 hover:bg-coffee-700 hover:shadow-xl"
+                        >
+                            <i class="fa-solid fa-mug-hot transition duration-300 group-hover:rotate-12"></i>
+                            Explore Menu
+                            <i class="fa-solid fa-arrow-right text-sm transition duration-300 group-hover:translate-x-1"></i>
+                        </a>
+
+                        <a
+                            href="#about"
+                            class="inline-flex items-center gap-2 rounded-full border border-coffee-300 px-6 py-3.5 font-semibold text-coffee-700 transition duration-300 hover:-translate-y-1 hover:bg-coffee-100"
+                        >
+                            Our Story
+                        </a>
+                    </div>
+
+                    <div class="mt-10 flex items-center gap-8 border-t border-coffee-200 pt-6">
+                        <div>
+                            <p class="font-display text-2xl font-bold">4.9</p>
+                            <div class="mt-1 flex gap-1 text-coffee-500">
+                                <i class="fa-solid fa-star text-xs"></i>
+                                <i class="fa-solid fa-star text-xs"></i>
+                                <i class="fa-solid fa-star text-xs"></i>
+                                <i class="fa-solid fa-star text-xs"></i>
+                                <i class="fa-solid fa-star text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="h-10 w-px bg-coffee-200"></div>
+
+                        <div>
+                            <p class="font-display text-2xl font-bold">2K+</p>
+                            <p class="text-xs text-coffee-500">Happy customers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+
+                    <div class="absolute -right-6 -top-8 h-28 w-28 rounded-full border border-coffee-300/70 animate-rotateSlow"></div>
+
+                    <div class="relative overflow-hidden rounded-[2rem] bg-coffee-200 shadow-2xl shadow-coffee-900/10">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=85"
+                            alt="Freshly brewed coffee"
+                            class="h-[480px] w-full object-cover transition duration-700 hover:scale-105 sm:h-[560px]"
+                        >
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-coffee-900/40 via-transparent to-transparent"></div>
+
+                        <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+
+                            <div class="rounded-2xl border border-white/30 bg-white/15 px-5 py-4 text-white backdrop-blur-md">
+                                <p class="text-xs tracking-[0.2em] text-coffee-100">
+                                    TODAY'S PICK
+                                </p>
+                                <p class="mt-1 font-display text-xl font-bold">
+                                    Signature Latte
+                                </p>
+                            </div>
+
+                            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-coffee-50 text-coffee-800 shadow-lg animate-pulseSoft">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute -bottom-5 -left-5 hidden h-16 w-16 items-center justify-center rounded-full bg-coffee-700 text-coffee-100 shadow-xl sm:flex animate-float">
+                        <i class="fa-solid fa-mug-hot text-xl"></i>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="border-y border-coffee-200 bg-white">
+
+            <div class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-coffee-200 md:grid-cols-4 md:divide-y-0">
+
+                <div class="group p-7 text-center transition duration-300 hover:bg-coffee-50 lg:p-10">
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-coffee-100 text-coffee-700 transition duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i class="fa-solid fa-leaf text-xl"></i>
+                    </div>
+                    <h3 class="mt-5 font-display text-lg font-bold">Fresh Ingredients</h3>
+                    <p class="mt-2 text-sm leading-6 text-coffee-500">
+                        Carefully selected ingredients in every cup.
+                    </p>
+                </div>
+
+                <div class="group p-7 text-center transition duration-300 hover:bg-coffee-50 lg:p-10">
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-coffee-100 text-coffee-700 transition duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i class="fa-solid fa-star text-xl"></i>
+                    </div>
+                    <h3 class="mt-5 font-display text-lg font-bold">Premium Quality</h3>
+                    <p class="mt-2 text-sm leading-6 text-coffee-500">
+                        Crafted for people who love great coffee.
+                    </p>
+                </div>
+
+                <div class="group p-7 text-center transition duration-300 hover:bg-coffee-50 lg:p-10">
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-coffee-100 text-coffee-700 transition duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i class="fa-solid fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="mt-5 font-display text-lg font-bold">Quick Service</h3>
+                    <p class="mt-2 text-sm leading-6 text-coffee-500">
+                        Your favorite coffee without the long wait.
+                    </p>
+                </div>
+
+                <div class="group p-7 text-center transition duration-300 hover:bg-coffee-50 lg:p-10">
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-coffee-100 text-coffee-700 transition duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                    </div>
+                    <h3 class="mt-5 font-display text-lg font-bold">Cozy Vibes</h3>
+                    <p class="mt-2 text-sm leading-6 text-coffee-500">
+                        A warm place to relax, work and recharge.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="menu" class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+
+            <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+
+                <div>
+                    <p class="text-xs font-bold tracking-[0.3em] text-coffee-500">
+                        WHAT'S BREWING
+                    </p>
+
+                    <h2 class="mt-3 font-display text-4xl font-bold text-coffee-900 sm:text-5xl">
+                        Our Specialties
+                    </h2>
+
+                    <div class="mt-4 h-1 w-16 rounded-full bg-coffee-500"></div>
+                </div>
+
+                <div
+                    id="categoryFilters"
+                    class="flex flex-wrap gap-2"
+                >
+                    <button
+                        data-category="all"
+                        class="category-btn rounded-full bg-coffee-800 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition duration-300 hover:-translate-y-0.5"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        data-category="coffee"
+                        class="category-btn rounded-full border border-coffee-200 bg-white px-5 py-2.5 text-sm font-medium text-coffee-600 transition duration-300 hover:bg-coffee-100"
+                    >
+                        Coffee
+                    </button>
+
+                    <button
+                        data-category="tea"
+                        class="category-btn rounded-full border border-coffee-200 bg-white px-5 py-2.5 text-sm font-medium text-coffee-600 transition duration-300 hover:bg-coffee-100"
+                    >
+                        Tea
+                    </button>
+
+                    <button
+                        data-category="dessert"
+                        class="category-btn rounded-full border border-coffee-200 bg-white px-5 py-2.5 text-sm font-medium text-coffee-600 transition duration-300 hover:bg-coffee-100"
+                    >
+                        Desserts
+                    </button>
+
+                    <button
+                        data-category="snacks"
+                        class="category-btn rounded-full border border-coffee-200 bg-white px-5 py-2.5 text-sm font-medium text-coffee-600 transition duration-300 hover:bg-coffee-100"
+                    >
+                        Snacks
+                    </button>
+                </div>
+            </div>
+
+            <div
+                id="menuGrid"
+                class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
+
+                <article
+                    data-category="coffee"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=700&q=85"
+                            alt="Cappuccino"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+
+                        <span class="absolute left-4 top-4 rounded-full bg-coffee-50/90 px-3 py-1 text-xs font-bold text-coffee-700 backdrop-blur-sm">
+                            Popular
+                        </span>
+                    </div>
+
+                    <div class="p-5">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <h3 class="font-display text-xl font-bold">Cappuccino</h3>
+                                <p class="mt-2 text-sm leading-6 text-coffee-500">
+                                    Rich espresso with silky steamed milk.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹160
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="coffee"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=700&q=85"
+                            alt="Latte"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Café Latte</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Smooth espresso with creamy steamed milk.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹180
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="coffee"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=85"
+                            alt="Iced coffee"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Iced Americano</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Bold espresso over ice with a refreshing finish.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹150
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="tea"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&w=700&q=85"
+                            alt="Matcha latte"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Matcha Latte</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Earthy matcha blended with creamy milk.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹190
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="dessert"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=85"
+                            alt="Chocolate cake"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Chocolate Cake</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Rich chocolate cake with a soft, moist center.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹180
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="dessert"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1558303053-06e3d9e6f9d4?auto=format&fit=crop&w=700&q=85"
+                            alt="Blueberry muffin"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Blueberry Muffin</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Freshly baked muffin with juicy blueberries.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹120
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="snacks"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=85"
+                            alt="Croissant"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Butter Croissant</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Golden, flaky and freshly baked every morning.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹110
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    data-category="coffee"
+                    class="menu-card group overflow-hidden rounded-2xl border border-coffee-200 bg-white shadow-sm transition duration-500 hover:-translate-y-2 hover:shadow-xl"
+                >
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=85"
+                            alt="Cold brew"
+                            class="h-56 w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-bold">Cold Brew</h3>
+
+                        <p class="mt-2 text-sm leading-6 text-coffee-500">
+                            Slow-brewed coffee with a smooth bold flavor.
+                        </p>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-coffee-800">
+                                ₹170
+                            </span>
+
+                            <button
+                                data-add
+                                class="flex h-10 w-10 items-center justify-center rounded-full bg-coffee-800 text-white transition duration-300 hover:rotate-90 hover:bg-coffee-600"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="relative overflow-hidden bg-coffee-800">
+
+            <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-coffee-500/30 animate-rotateSlow"></div>
+
+            <div class="mx-auto max-w-5xl px-5 py-20 text-center">
+
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-coffee-700 text-coffee-200 animate-float">
+                    <i class="fa-solid fa-mug-hot text-2xl"></i>
+                </div>
+
+                <h2 class="mt-7 font-display text-4xl font-bold text-coffee-50 sm:text-5xl">
+                    Coffee tastes better with good company.
+                </h2>
+
+                <p class="mx-auto mt-5 max-w-2xl leading-7 text-coffee-200">
+                    Drop by BunkCafe for your next coffee break,
+                    study session or simply a little time for yourself.
+                </p>
+
+                <a
+                    href="#menu"
+                    class="mt-8 inline-flex items-center gap-3 rounded-full bg-coffee-100 px-7 py-3.5 font-semibold text-coffee-800 transition duration-300 hover:-translate-y-1 hover:bg-white"
+                >
+                    Browse Our Menu
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact" class="bg-coffee-900 text-coffee-100">
+
+        <div class="mx-auto grid max-w-7xl gap-12 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+
+            <div class="sm:col-span-2">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-coffee-700">
+                        <i class="fa-solid fa-mug-hot"></i>
+                    </div>
+
+                    <span class="font-display text-2xl font-bold">
+                        BunkCafe
+                    </span>
+                </div>
+
+                <p class="mt-5 max-w-sm text-sm leading-7 text-coffee-300">
+                    Coffee, food and good vibes. Your cozy little escape
+                    from the everyday rush.
+                </p>
+
+                <div class="mt-6 flex gap-3">
+                    <a
+                        href="#"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-coffee-700 transition duration-300 hover:-translate-y-1 hover:bg-coffee-700"
+                    >
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-coffee-700 transition duration-300 hover:-translate-y-1 hover:bg-coffee-700"
+                    >
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-coffee-700 transition duration-300 hover:-translate-y-1 hover:bg-coffee-700"
+                    >
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-coffee-50">Explore</h3>
+
+                <div class="mt-5 flex flex-col gap-3 text-sm text-coffee-300">
+                    <a href="#home" class="transition hover:text-white">Home</a>
+                    <a href="#menu" class="transition hover:text-white">Menu</a>
+                    <a href="#about" class="transition hover:text-white">About</a>
+                    <a href="#contact" class="transition hover:text-white">Contact</a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-coffee-50">Visit Us</h3>
+
+                <div class="mt-5 space-y-4 text-sm text-coffee-300">
+                    <p class="flex gap-3">
+                        <i class="fa-solid fa-location-dot mt-1"></i>
+                        <span>Davangere, Karnataka</span>
+                    </p>
+
+                    <p class="flex gap-3">
+                        <i class="fa-solid fa-clock mt-1"></i>
+                        <span>8:00 AM — 10:00 PM</span>
+                    </p>
+
+                    <p class="flex gap-3">
+                        <i class="fa-solid fa-phone mt-1"></i>
+                        <span>+91 98765 43210</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border-t border-coffee-800">
+            <div class="mx-auto flex max-w-7xl flex-col justify-between gap-3 px-5 py-5 text-xs text-coffee-400 sm:flex-row lg:px-8">
+                <p>© 2026 BunkCafe. All rights reserved.</p>
+                <p>Made with <i class="fa-solid fa-mug-hot mx-1"></i> and good vibes.</p>
+            </div>
+        </div>
+
+    </footer>
+    <script type="module" src="./dist/main.js"></script>
+
+</body>
+</html>
