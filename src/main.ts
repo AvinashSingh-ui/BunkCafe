@@ -19,11 +19,9 @@ function renderMenu(items: MenuItem[]): void {
     items.forEach((item) => {
         const card = document.createElement("div");
 
-        card.className =
-            "group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl";
+        card.className = "group overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl";
 
-        card.innerHTML = `
-            <div class="relative overflow-hidden">
+        card.innerHTML = `<div class="relative overflow-hidden">
                 <img 
                     src="${item.image}" 
                     alt="${item.name}"
